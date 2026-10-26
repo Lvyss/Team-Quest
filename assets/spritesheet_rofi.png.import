@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cdi8rtqmpnnt6"
-path="res://.godot/imported/spritesheet.png-76e0b916bc20d45ac6900db6e21d8a9e.ctex"
+uid="uid://mr7dxpiggey1"
+path="res://.godot/imported/spritesheet_rofi.png-e27931d7e353610c21f7b106580e4066.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/spritesheet.png"
-dest_files=["res://.godot/imported/spritesheet.png-76e0b916bc20d45ac6900db6e21d8a9e.ctex"]
+source_file="res://assets/spritesheet_rofi.png"
+dest_files=["res://.godot/imported/spritesheet_rofi.png-e27931d7e353610c21f7b106580e4066.ctex"]
 
 [params]
 
