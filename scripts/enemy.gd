@@ -1,115 +1,121 @@
 extends CharacterBody2D
 
-# Pengaturan gerakan Enemy
-@export var patrol_speed: float = 40.0
-@export var patrol_distance: float = 60.0
-@export var gravity: float = 980.0
+const SPEED_PATROLI = 40.0
+const SPEED_KEJAR = 80.0
+const GRAVITY = 900.0
+const JARAK_JALAN = 80.0
 
-# Kekuatan pantulan Player setelah menginjak Enemy
-@export var bounce_velocity: float = -280.0
+# Harus file SCENE (.tscn), bukan .gd. Sesuaikan path.
+const ITEM_SCENE = preload("res://scenes/item_drop.tscn")
 
-# Diisi ketika scene item drop sudah tersedia
-@export var item_scene: PackedScene
+var arah_jalan = 1
+var is_dead = false
+var player_di_dekat = false
+var player_ref: Node2D = null
+var posisi_awal = 0.0
+var sedang_balik = false
 
-@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
-@onready var body_collision: CollisionShape2D = $CollisionShape2D
-@onready var top_hitbox: Area2D = $TopHitbox
+@onready var anim = $AnimatedSprite2D
+@onready var deteksi_player = $DeteksiPlayer
+@onready var top_hitbox = $TopHitbox
 
-var start_x: float
-var direction: float = 1.0
-var dead: bool = false
+func _ready():
+	posisi_awal = global_position.x
+	deteksi_player.body_entered.connect(_on_deteksi_player_body_entered)
+	deteksi_player.body_exited.connect(_on_deteksi_player_body_exited)
+	top_hitbox.body_entered.connect(_on_top_hitbox_body_entered)
 
+func _on_deteksi_player_body_entered(body):
+	if body.is_in_group("player"):
+		player_di_dekat = true
+		player_ref = body
 
-func _ready() -> void:
-	start_x = global_position.x
+func _on_deteksi_player_body_exited(body):
+	if body.is_in_group("player"):
+		player_di_dekat = false
+		player_ref = null
 
-	top_hitbox.body_entered.connect(
-		_on_top_hitbox_body_entered
-	)
+func _on_top_hitbox_body_entered(body):
+	if is_dead:
+		return
+	if body.is_in_group("player"):
+		mati_diinjak()
+		if "velocity" in body:
+			body.velocity.y = -250.0
 
-	if sprite.sprite_frames != null:
-		if sprite.sprite_frames.has_animation("move"):
-			sprite.play("move")
-
-
-func _physics_process(delta: float) -> void:
-	if dead:
+func _physics_process(delta):
+	if is_dead:
 		return
 
-	# Gravitasi
 	if not is_on_floor():
-		velocity.y += gravity * delta
-	else:
-		velocity.y = 0.0
+		velocity.y += GRAVITY * delta
 
-	# Gerakan bolak-balik
-	velocity.x = patrol_speed * direction
+	if player_di_dekat and is_instance_valid(player_ref):
+		kejar_player()
+	else:
+		patroli()
+
+	if velocity.x < 0:
+		anim.flip_h = true
+	elif velocity.x > 0:
+		anim.flip_h = false
+
+	if anim.sprite_frames and anim.sprite_frames.has_animation("Move"):
+		anim.play("Move")
 
 	move_and_slide()
 
-	# Berbalik ketika menyentuh dinding
-	if is_on_wall():
-		direction *= -1.0
+func patroli():
+	velocity.x = arah_jalan * SPEED_PATROLI
 
-	# Batas patroli kanan
-	if global_position.x >= start_x + patrol_distance:
-		global_position.x = start_x + patrol_distance
-		direction = -1.0
+	if global_position.x > posisi_awal + JARAK_JALAN:
+		arah_jalan = -1
+	elif global_position.x < posisi_awal - JARAK_JALAN:
+		arah_jalan = 1
 
-	# Batas patroli kiri
-	elif global_position.x <= start_x - patrol_distance:
-		global_position.x = start_x - patrol_distance
-		direction = 1.0
+	if is_on_wall() and not sedang_balik:
+		balik_arah()
 
-	# Membalik sprite sesuai arah gerak
-	sprite.flip_h = direction < 0.0
+func kejar_player():
+	var selisih = player_ref.global_position.x - global_position.x
 
-
-func _on_top_hitbox_body_entered(body: Node2D) -> void:
-	if dead:
-		return
-
-	# Hanya mendeteksi Player
-	if not body.is_in_group("player"):
-		return
-
-	# Player harus berupa CharacterBody2D
-	if body is CharacterBody2D:
-		# Velocity positif berarti bergerak ke bawah
-		if body.velocity.y > 0.0:
-			body.velocity.y = bounce_velocity
-			await _die()
-
-
-func _die() -> void:
-	if dead:
-		return
-
-	dead = true
-	velocity = Vector2.ZERO
-
-	# Matikan collision
-	body_collision.set_deferred("disabled", true)
-	top_hitbox.set_deferred("monitoring", false)
-
-	# Putar animasi kematian bawaan RVROS
-	if sprite.sprite_frames != null:
-		if sprite.sprite_frames.has_animation("die"):
-			sprite.play("die")
-			await sprite.animation_finished
-		else:
-			await get_tree().create_timer(0.15).timeout
+	if abs(selisih) > 4.0:
+		velocity.x = sign(selisih) * SPEED_KEJAR
 	else:
-		await get_tree().create_timer(0.15).timeout
+		velocity.x = 0
 
-	# Buat item drop jika scene sudah dihubungkan
-	if item_scene != null:
-		var item: Node = item_scene.instantiate()
+	if is_on_wall():
+		velocity.x = 0
 
-		get_parent().add_child(item)
+func balik_arah():
+	sedang_balik = true
+	arah_jalan *= -1
+	await get_tree().create_timer(0.2).timeout
+	sedang_balik = false
 
-		if item is Node2D:
-			item.global_position = global_position
+func mati_diinjak():
+	is_dead = true
+	var nomor = GameManager.musuh_dibunuh()
+	drop_item(nomor)
+	velocity.x = 0
 
-	# Hapus Enemy setelah animasi selesai
+	if anim.sprite_frames and anim.sprite_frames.has_animation("Die"):
+		anim.play("Die")
+
+	$CollisionShape2D.set_deferred("disabled", true)
+	top_hitbox.set_deferred("monitoring", false)
+	deteksi_player.set_deferred("monitoring", false)
+
+	await get_tree().create_timer(0.5).timeout
 	queue_free()
+
+func drop_item(nomor: int):
+	var item = ITEM_SCENE.instantiate()
+	item.position = global_position + Vector2(0, -10)
+	item.nomor_kill = nomor
+
+	# Lempar ke atas dan ke samping acak, sisanya diurus gravitasi item
+	var arah_lempar = 1 if randf() > 0.5 else -1
+	item.velocity = Vector2(arah_lempar * randf_range(50.0, 90.0), -220.0)
+
+	get_parent().add_child.call_deferred(item)

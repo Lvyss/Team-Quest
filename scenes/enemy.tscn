@@ -22,6 +22,8 @@
 [ext_resource type="Texture2D" uid="uid://dopttv23cspus" path="res://assets/Individual Sprites/slime-move-0.png" id="19_2tuss"]
 [ext_resource type="Texture2D" uid="uid://b1la85l2cpskq" path="res://assets/Individual Sprites/slime-move-1.png" id="20_7v6cf"]
 [ext_resource type="Texture2D" uid="uid://bypq0rvt6quxj" path="res://assets/Individual Sprites/slime-move-2.png" id="21_vab5u"]
+[ext_resource type="Script" uid="uid://c5j82hjb667hp" path="res://scenes/hitbox_atas.gd" id="23_wjec0"]
+[ext_resource type="Script" uid="uid://c668bxmb4pdjk" path="res://scripts/hitbox_badan.gd" id="25_i4rgx"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_htemk"]
 animations = [{
@@ -118,26 +120,46 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_14cdr"]
-size = Vector2(21, 13)
+size = Vector2(27, 11)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qiusc"]
 size = Vector2(21, 4)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_a4roe"]
+radius = 50.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wjec0"]
+size = Vector2(29, 11)
 
 [node name="Enemy" type="CharacterBody2D" unique_id=786151973]
 script = ExtResource("1_wrm80")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1170884258]
 sprite_frames = SubResource("SpriteFrames_htemk")
-animation = &"Idle"
-frame_progress = 0.9311861
+animation = &"Attack"
+frame_progress = 0.30918983
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2058656693]
-position = Vector2(0.5, 5.5)
+position = Vector2(0.5, 6.5)
 shape = SubResource("RectangleShape2D_14cdr")
 
 [node name="TopHitbox" type="Area2D" parent="." unique_id=869026542]
 position = Vector2(0, -10)
+script = ExtResource("23_wjec0")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TopHitbox" unique_id=982566976]
-position = Vector2(0.5, 9)
+position = Vector2(0.5, 8)
 shape = SubResource("RectangleShape2D_qiusc")
+
+[node name="DeteksiPlayer" type="Area2D" parent="." unique_id=11850083]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DeteksiPlayer" unique_id=768243568]
+visible = false
+shape = SubResource("CircleShape2D_a4roe")
+
+[node name="HitboxBadan" type="Area2D" parent="." unique_id=572267249]
+script = ExtResource("25_i4rgx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxBadan" unique_id=258478958]
+position = Vector2(0.5, 6.5)
+shape = SubResource("RectangleShape2D_wjec0")

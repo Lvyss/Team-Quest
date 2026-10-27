@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://d3wptspr2hvx0"]
 
-[ext_resource type="Script" uid="uid://rirbkdliahph" path="res://script/Player.gd" id="1_khinc"]
+[ext_resource type="Script" uid="uid://cwlfvv54ar3p1" path="res://scripts/player.gd" id="1_smehm"]
 [ext_resource type="Texture2D" uid="uid://cjh1pr0thbsp1" path="res://assets/Free/Main Characters/Pink Man/Double Jump (32x32).png" id="2_bruh7"]
 [ext_resource type="Texture2D" uid="uid://bi4rxixwp7o16" path="res://assets/Free/Main Characters/Pink Man/Fall (32x32).png" id="3_6eyey"]
 [ext_resource type="Texture2D" uid="uid://cona17csl5a3o" path="res://assets/Free/Main Characters/Pink Man/Hit (32x32).png" id="4_d3wef"]
@@ -109,7 +109,7 @@ region = Rect2(288, 0, 32, 32)
 atlas = ExtResource("5_o4126")
 region = Rect2(320, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_o5v6a"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_khinc"]
 atlas = ExtResource("6_lkdrv")
 region = Rect2(0, 0, 32, 32)
 
@@ -280,11 +280,11 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_o5v6a")
+"texture": SubResource("AtlasTexture_khinc")
 }],
 "loop": 1,
 "name": &"Jump",
-"speed": 5.0
+"speed": 8.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -351,12 +351,12 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xiplf"]
 size = Vector2(23, 27)
 
-[node name="Player" type="CharacterBody2D" unique_id=1745367063]
-script = ExtResource("1_khinc")
+[node name="Player" type="CharacterBody2D" unique_id=1745367063 groups=["player"]]
+script = ExtResource("1_smehm")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1840789673]
 sprite_frames = SubResource("SpriteFrames_lrn7f")
-animation = &"Jump"
+animation = &"Hit"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=636621327]
 position = Vector2(0.5, 3.5)

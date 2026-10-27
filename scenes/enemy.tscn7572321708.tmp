@@ -1,0 +1,167 @@
+[gd_scene format=3 uid="uid://de1trw72mo1x"]
+
+[ext_resource type="Texture2D" uid="uid://cuuuv8nwab7w4" path="res://assets/Individual Sprites/slime-attack-0.png" id="1_rogs8"]
+[ext_resource type="Script" uid="uid://ducjqga4tkg4v" path="res://scripts/enemy.gd" id="1_wrm80"]
+[ext_resource type="Texture2D" uid="uid://bxi56760t50he" path="res://assets/Individual Sprites/slime-attack-1.png" id="2_wrm80"]
+[ext_resource type="Texture2D" uid="uid://ewijk3u0cs8w" path="res://assets/Individual Sprites/slime-attack-2.png" id="3_6awcb"]
+[ext_resource type="Texture2D" uid="uid://vm710h3l2phr" path="res://assets/Individual Sprites/slime-attack-3.png" id="4_wjec0"]
+[ext_resource type="Texture2D" uid="uid://370uga2vg6ta" path="res://assets/Individual Sprites/slime-attack-4.png" id="5_i4rgx"]
+[ext_resource type="Texture2D" uid="uid://barqhbgkv0sb" path="res://assets/Individual Sprites/slime-move-3.png" id="6_2mchx"]
+[ext_resource type="Texture2D" uid="uid://b2j62d56kmrbq" path="res://assets/Individual Sprites/slime-die-0.png" id="7_t3vcr"]
+[ext_resource type="Texture2D" uid="uid://cw4eifab4w2ao" path="res://assets/Individual Sprites/slime-die-1.png" id="8_qaulx"]
+[ext_resource type="Texture2D" uid="uid://b6djxmae08k2s" path="res://assets/Individual Sprites/slime-die-2.png" id="9_1f82d"]
+[ext_resource type="Texture2D" uid="uid://b2jim3apqojbs" path="res://assets/Individual Sprites/slime-die-3.png" id="10_lioqc"]
+[ext_resource type="Texture2D" uid="uid://ddfpyj1afff80" path="res://assets/Individual Sprites/slime-hurt-0.png" id="11_0lg75"]
+[ext_resource type="Texture2D" uid="uid://d37iybn6ah1v0" path="res://assets/Individual Sprites/slime-hurt-1.png" id="12_lsnsy"]
+[ext_resource type="Texture2D" uid="uid://cb5lpkgqyyst5" path="res://assets/Individual Sprites/slime-hurt-2.png" id="13_thsr5"]
+[ext_resource type="Texture2D" uid="uid://bgawsxvqrqghd" path="res://assets/Individual Sprites/slime-hurt-3.png" id="14_ekh6n"]
+[ext_resource type="Texture2D" uid="uid://clilwwi7nopki" path="res://assets/Individual Sprites/slime-idle-0.png" id="15_2sbpf"]
+[ext_resource type="Texture2D" uid="uid://cktnaataqs0df" path="res://assets/Individual Sprites/slime-idle-1.png" id="16_78kod"]
+[ext_resource type="Texture2D" uid="uid://b26kotmmfhm10" path="res://assets/Individual Sprites/slime-idle-2.png" id="17_605iw"]
+[ext_resource type="Texture2D" uid="uid://bpgdeownjii04" path="res://assets/Individual Sprites/slime-idle-3.png" id="18_x6q4o"]
+[ext_resource type="Texture2D" uid="uid://dopttv23cspus" path="res://assets/Individual Sprites/slime-move-0.png" id="19_2tuss"]
+[ext_resource type="Texture2D" uid="uid://b1la85l2cpskq" path="res://assets/Individual Sprites/slime-move-1.png" id="20_7v6cf"]
+[ext_resource type="Texture2D" uid="uid://bypq0rvt6quxj" path="res://assets/Individual Sprites/slime-move-2.png" id="21_vab5u"]
+[ext_resource type="Script" uid="uid://dc8tetri6c60" path="res://scripts/deteksi.gd" id="22_wrm80"]
+[ext_resource type="Script" uid="uid://c5j82hjb667hp" path="res://scenes/hitbox_atas.gd" id="23_wjec0"]
+[ext_resource type="Script" uid="uid://c668bxmb4pdjk" path="res://scripts/hitbox_badan.gd" id="25_i4rgx"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_htemk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_rogs8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_wrm80")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_6awcb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_wjec0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_i4rgx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_2mchx")
+}],
+"loop": 1,
+"name": &"Attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_t3vcr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_qaulx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_1f82d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_lioqc")
+}],
+"loop": 1,
+"name": &"Die",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("11_0lg75")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_lsnsy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_thsr5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_ekh6n")
+}],
+"loop": 1,
+"name": &"Hurt",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("15_2sbpf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_78kod")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_605iw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_x6q4o")
+}],
+"loop": 1,
+"name": &"Idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("19_2tuss")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_7v6cf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_vab5u")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_2mchx")
+}],
+"loop": 1,
+"name": &"Move",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_14cdr"]
+size = Vector2(27, 11)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qiusc"]
+size = Vector2(21, 4)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_a4roe"]
+radius = 50.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wjec0"]
+size = Vector2(29, 11)
+
+[node name="Enemy" type="CharacterBody2D" unique_id=786151973]
+script = ExtResource("1_wrm80")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1170884258]
+sprite_frames = SubResource("SpriteFrames_htemk")
+animation = &"Attack"
+frame_progress = 0.9840396
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2058656693]
+position = Vector2(0.5, 6.5)
+shape = SubResource("RectangleShape2D_14cdr")
+
+[node name="TopHitbox" type="Area2D" parent="." unique_id=869026542]
+position = Vector2(0, -10)
+script = ExtResource("23_wjec0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TopHitbox" unique_id=982566976]
+position = Vector2(0.5, 8)
+shape = SubResource("RectangleShape2D_qiusc")
+
+[node name="DeteksiPlayer" type="Area2D" parent="." unique_id=11850083]
+script = ExtResource("22_wrm80")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DeteksiPlayer" unique_id=768243568]
+visible = false
+shape = SubResource("CircleShape2D_a4roe")
+
+[node name="HitboxBadan" type="Area2D" parent="." unique_id=572267249]
+script = ExtResource("25_i4rgx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxBadan" unique_id=258478958]
+position = Vector2(0.5, 6.5)
+shape = SubResource("RectangleShape2D_wjec0")
